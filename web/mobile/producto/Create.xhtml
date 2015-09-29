@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="ProductoCreatePage" lazy="true">
+        <pm:header title="#{myBundle.CreateProductoTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{myBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:ProductoListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="ProductoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{productoController.selected != null}">
+                    <p:outputPanel>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateProductoLabel_id}" for="id" />
+                            <p:inputText id="id" value="#{productoController.selected.id}" title="#{myBundle.CreateProductoTitle_id}" required="true" requiredMessage="#{myBundle.CreateProductoRequiredMessage_id}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateProductoLabel_cantidad}" for="cantidad" />
+                            <p:inputText id="cantidad" value="#{productoController.selected.cantidad}" title="#{myBundle.CreateProductoTitle_cantidad}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateProductoLabel_fechaingreso}" for="fechaingreso" />
+                            <p:calendar id="fechaingreso" pattern="MM/dd/yyyy" value="#{productoController.selected.fechaingreso}" title="#{myBundle.CreateProductoTitle_fechaingreso}"  showOn="button"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateProductoLabel_nombreproducto}" for="nombreproducto" />
+                            <p:inputText id="nombreproducto" value="#{productoController.selected.nombreproducto}" title="#{myBundle.CreateProductoTitle_nombreproducto}" size="255" maxlength="255"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateProductoLabel_precio}" for="precio" />
+                            <p:inputText id="precio" value="#{productoController.selected.precio}" title="#{myBundle.CreateProductoTitle_precio}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateProductoLabel_tipoproductoId}" for="tipoproductoId" />
+                            <p:selectOneMenu id="tipoproductoId" value="#{productoController.selected.tipoproductoId}"  converter="tipoproductoConverter">
+                                <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{tipoproductoController.items}"
+                                               var="tipoproductoIdItem"
+                                               itemValue="#{tipoproductoIdItem}"
+                                               itemLabel="#{tipoproductoIdItem.id.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                        </pm:field>
+                    </p:outputPanel>
+                    <p:commandButton actionListener="#{productoController.saveNew}" value="#{myBundle.Save}" update="display,:ProductoListPage:ProductoListForm:datalist,:growl" action="#{mobilePageController.navigateWithHistory('pm:ProductoListPage')}"/>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

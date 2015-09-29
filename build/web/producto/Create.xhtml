@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProductoCreateDlg" widgetVar="ProductoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateProductoTitle}" closeOnEscape="true">
+
+            <h:form id="ProductoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{productoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateProductoLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{productoController.selected.id}" title="#{myBundle.CreateProductoTitle_id}" required="true" requiredMessage="#{myBundle.CreateProductoRequiredMessage_id}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProductoLabel_cantidad}" for="cantidad" />
+                        <p:inputText id="cantidad" value="#{productoController.selected.cantidad}" title="#{myBundle.CreateProductoTitle_cantidad}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProductoLabel_fechaingreso}" for="fechaingreso" />
+                        <p:calendar id="fechaingreso" pattern="MM/dd/yyyy" value="#{productoController.selected.fechaingreso}" title="#{myBundle.CreateProductoTitle_fechaingreso}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProductoLabel_nombreproducto}" for="nombreproducto" />
+                        <p:inputText id="nombreproducto" value="#{productoController.selected.nombreproducto}" title="#{myBundle.CreateProductoTitle_nombreproducto}" size="255" maxlength="255"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProductoLabel_precio}" for="precio" />
+                        <p:inputText id="precio" value="#{productoController.selected.precio}" title="#{myBundle.CreateProductoTitle_precio}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProductoLabel_tipoproductoId}" for="tipoproductoId" />
+                        <p:selectOneMenu id="tipoproductoId" value="#{productoController.selected.tipoproductoId}"  converter="tipoproductoConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoproductoController.items}"
+                                           var="tipoproductoIdItem"
+                                           itemValue="#{tipoproductoIdItem}"
+                                           itemLabel="#{tipoproductoIdItem.id.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{productoController.saveNew}" value="#{myBundle.Save}" update="display,:ProductoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ProductoCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('ProductoCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>
